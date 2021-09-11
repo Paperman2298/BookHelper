@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1025093970150",
+    "project_id": "bookhelper-8218c",
+    "storage_bucket": "bookhelper-8218c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025093970150:android:7fdfbaaffa8d660b3f3327",
+        "android_client_info": {
+          "package_name": "com.example.bookhelper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1025093970150-jeb6bpjqjp2ucqkvdqkltusrd3juq94q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqzSd10s5Y3L0XR99DaXFQ4wQEzcOADNY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1025093970150-jeb6bpjqjp2ucqkvdqkltusrd3juq94q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
