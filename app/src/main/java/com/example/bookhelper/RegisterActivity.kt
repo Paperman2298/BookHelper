@@ -23,6 +23,8 @@ class RegisterActivity : AppCompatActivity() {
 
     fun onRegisterClicked(view: View?){
         //Create firebase user
+
+        // Random comment
     }
 
     fun onLoginClicked(view: View?){
