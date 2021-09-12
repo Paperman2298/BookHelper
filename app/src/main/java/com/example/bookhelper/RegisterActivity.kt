@@ -3,8 +3,11 @@ package com.example.bookhelper
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -23,8 +26,15 @@ class RegisterActivity : AppCompatActivity() {
 
     fun onRegisterClicked(view: View?){
         //Create firebase user
-
-        // Random comment
+        Firebase.auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
+            .addOnCompleteListener(this){
+                // Nos regresa un objeto "it" que indica si fue exitoso o no el registro
+                if (it.isSuccessful){
+                    Log.d("FIREBASE", "Registro exitoso")
+                }else {
+                    Log.d("FIREBASE", "Registro fracasó: ${it.exception?.message}")
+                }
+            }
     }
 
     fun onLoginClicked(view: View?){
