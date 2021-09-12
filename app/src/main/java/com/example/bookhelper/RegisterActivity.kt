@@ -25,7 +25,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     fun onRegisterClicked(view: View?){
-        //Create firebase user
+        // Register firebase user
         Firebase.auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
             .addOnCompleteListener(this){
                 // Nos regresa un objeto "it" que indica si fue exitoso o no el registro
