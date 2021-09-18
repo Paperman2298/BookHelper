@@ -28,7 +28,6 @@ class RegisterActivity : AppCompatActivity() {
 
     fun onRegisterClicked(view: View?){
         //Create firebase user
-
         if(email.text.toString().isEmpty()){
             Toast.makeText(this, "¡Campo correo vacio!", Toast.LENGTH_SHORT).show()
         }else if (password.text.toString().isEmpty()){
