@@ -5,6 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.util.Log
+import android.widget.Toast
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -21,6 +26,27 @@ class LoginActivity : AppCompatActivity() {
 
     fun onLoginClicked(view: View?){
         //Firebase
+
+        if(email.text.toString().isEmpty()){
+            Toast.makeText(this, "¡Campo correo vacio!", Toast.LENGTH_SHORT).show()
+        }else if (password.text.toString().isEmpty()) {
+            Toast.makeText(this, "¡Campo contraseña vacio!", Toast.LENGTH_SHORT).show()
+        }else{
+            Firebase.auth.signInWithEmailAndPassword(
+                email.text.toString(),
+                password.text.toString()
+            ).addOnCompleteListener(this){
+                if(it.isSuccessful)
+                    Toast.makeText(this, "¡Login exitoso!", Toast.LENGTH_SHORT).show()
+                    //Log.d("FIREBASE", "Login exitoso")
+                else
+                    Toast.makeText(this, "¡Correo y contraseña inválido!", Toast.LENGTH_SHORT).show()
+                    //Log.e("FIREBASE", "Login fracasó: ${it.exception?.message}")
+            }
+        }
+
+
+
     }
 
     fun onRegisterClicked(view : View?){
