@@ -25,8 +25,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun onLoginClicked(view: View?){
-        //Firebase
-
         if(email.text.toString().isEmpty()){
             Toast.makeText(this, "¡Campo correo vacio!", Toast.LENGTH_SHORT).show()
         }else if (password.text.toString().isEmpty()) {
@@ -36,14 +34,18 @@ class LoginActivity : AppCompatActivity() {
                 email.text.toString(),
                 password.text.toString()
             ).addOnCompleteListener(this){
-                if(it.isSuccessful)
+                if(it.isSuccessful){
                     Toast.makeText(this, "¡Login exitoso!", Toast.LENGTH_SHORT).show()
-                    //Log.d("FIREBASE", "Login exitoso")
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                }
                 else
                     Toast.makeText(this, "¡Correo y contraseña inválido!", Toast.LENGTH_SHORT).show()
-                    //Log.e("FIREBASE", "Login fracasó: ${it.exception?.message}")
+                //Log.e("FIREBASE", "Login fracaso: ${it.exception?.message}")
             }
         }
+        //Firebase
+
 
 
 
