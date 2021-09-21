@@ -6,16 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
-<<<<<<< HEAD
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-=======
-import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
->>>>>>> 06a5babed9b4653e222845b5cfc22ae7932cdb0f
 
 class LoginActivity : AppCompatActivity() {
 
