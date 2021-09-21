@@ -1,17 +1,26 @@
 package com.example.bookhelper
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import java.util.ArrayList
 
-class CustomAdapter : RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
+class CustomAdapter(a : ArrayList<String>, b : ArrayList<String>, c : ArrayList<String> ) : RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
 
-    val titles = arrayOf("A Brave New World", "Why I Write", "Man's Search For Meaning")
-    val authors = arrayOf("Aldous Huxley", "George Orwell", "Viktor E. Frankl")
-    val pages = arrayOf("197", "120", "165")
+    //val titles = arrayOf("A Brave New World", "Why I Write", "Man's Search For Meaning")
+    //val authors = arrayOf("Aldous Huxley", "George Orwell", "Viktor E. Frankl")
+    //val pages = arrayOf("197", "120", "165")
+    val titles = a
+    val authors = b
+    val pages = c
+
     val images = intArrayOf(
         R.drawable.ic_launcher_background,
         R.drawable.ic_launcher_background,
@@ -47,6 +56,7 @@ class CustomAdapter : RecyclerView.Adapter<CustomAdapter.ViewHolder>(){
             itemPages = itemView.findViewById(R.id.item_pages)
         }
     }
+
 
 
 }
