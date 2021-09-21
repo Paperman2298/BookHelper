@@ -43,12 +43,6 @@ class HomeActivity : AppCompatActivity() {
             .addOnFailureListener{
                 Log.e("FIRESTORE", "error al leer books: ${it.message}")
             }
-
-
-
-
-
-
     }
 
     fun onCardClick(v : View){
