@@ -7,9 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import java.util.ArrayList
 
 class CustomAdapter(a : ArrayList<String>, b : ArrayList<String>, c : ArrayList<String> ) : RecyclerView.Adapter<CustomAdapter.ViewHolder>(){

@@ -1,8 +1,11 @@
 package com.example.bookhelper
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
@@ -48,6 +51,18 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
+    fun onCardClick(v : View){
+        val intent = Intent(this, BookDetailActivity::class.java)
+        val book = ArrayList<String>()
+        val curTitle: TextView = v.findViewById(R.id.item_title)
+        val curAuthor: TextView = v.findViewById(R.id.item_author)
+        val curPages: TextView = v.findViewById(R.id.item_pages)
+        book.add(curTitle.text.toString())
+        book.add(curAuthor.text.toString())
+        book.add(curPages.text.toString())
 
+        intent.putExtra("book", book)
+        startActivity(intent)
+    }
 
 }

@@ -3,9 +3,9 @@ package com.example.bookhelper
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
-import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -25,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun onLoginClicked(view: View?){
+
         if(email.text.toString().isEmpty()){
             Toast.makeText(this, "¡Campo correo vacio!", Toast.LENGTH_SHORT).show()
         }else if (password.text.toString().isEmpty()) {
@@ -45,9 +46,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
         //Firebase
-
-
-
 
     }
 
