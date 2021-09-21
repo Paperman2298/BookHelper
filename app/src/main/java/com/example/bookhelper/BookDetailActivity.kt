@@ -1,7 +1,9 @@
 package com.example.bookhelper
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 
 class BookDetailActivity : AppCompatActivity() {
@@ -23,6 +25,10 @@ class BookDetailActivity : AppCompatActivity() {
         title.text = book[0]
         author.text = book[1]
         pages.text = book[2]
+    }
+
+    fun backToHome(v: View?){
+        finish();
     }
 
 
