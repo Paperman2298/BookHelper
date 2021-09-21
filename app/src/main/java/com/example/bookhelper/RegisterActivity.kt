@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -25,17 +27,34 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     fun onRegisterClicked(view: View?){
-        // Register firebase user
-        Firebase.auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
-            .addOnCompleteListener(this){
-                // Nos regresa un objeto "it" que indica si fue exitoso o no el registro
-                if (it.isSuccessful){
-                    Log.d("FIREBASE", "Registro exitoso")
-                }else {
-                    Log.d("FIREBASE", "Registro fracasó: ${it.exception?.message}")
-                }
+        //Create firebase user
+        if(email.text.toString().isEmpty()){
+            Toast.makeText(this, "¡Campo correo vacio!", Toast.LENGTH_SHORT).show()
+        }else if (password.text.toString().isEmpty()){
+            Toast.makeText(this, "¡Campo contraseña vacio!", Toast.LENGTH_SHORT).show()
+        }else if (confirmedPassword.text.toString().isEmpty()){
+            Toast.makeText(this, "¡Campo confirmar contraseña vacio!", Toast.LENGTH_SHORT).show()
+        }else{
+            if(password.text.toString() == confirmedPassword.text.toString()){
+                Firebase.auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
+                    .addOnCompleteListener(this){
+                        // Nos regresa un objeto "it" que indica si fue exitoso o no el registro
+                        if (it.isSuccessful){
+                            Toast.makeText(this, "¡Registro exitoso!", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                        }else {
+                            Toast.makeText(this, "¡Correo inválido!", Toast.LENGTH_SHORT).show()
+                            //Log.d("FIREBASE", "Registro fracasó: ${it.exception?.message}")
+                        }
+                    }
+            }else{
+                Toast.makeText(this, "¡La contraseña de verificación no coincide!", Toast.LENGTH_SHORT).show()
+                //Log.d("FIREBASE", "La contraseña no es la misma")
             }
+        }
     }
+
 
     fun onLoginClicked(view: View?){
         val intent = Intent(this, LoginActivity::class.java)

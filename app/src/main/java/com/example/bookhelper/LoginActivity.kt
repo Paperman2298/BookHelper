@@ -6,8 +6,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+<<<<<<< HEAD
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+=======
+import android.util.Log
+import android.widget.Toast
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+
+>>>>>>> 06a5babed9b4653e222845b5cfc22ae7932cdb0f
 
 class LoginActivity : AppCompatActivity() {
 
@@ -23,16 +31,28 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun onLoginClicked(view: View?){
-        // Login firebase user
-        Firebase.auth.signInWithEmailAndPassword(email.text.toString(), password.text.toString())
-            .addOnCompleteListener(this){
-                // Nos regresa un objeto "it" que indica si fue exitoso o no el login
-                if (it.isSuccessful){
-                    Log.d("FIREBASE", "Login exitoso")
-                }else {
-                    Log.d("FIREBASE", "Login fracasó: ${it.exception?.message}")
+
+        if(email.text.toString().isEmpty()){
+            Toast.makeText(this, "¡Campo correo vacio!", Toast.LENGTH_SHORT).show()
+        }else if (password.text.toString().isEmpty()) {
+            Toast.makeText(this, "¡Campo contraseña vacio!", Toast.LENGTH_SHORT).show()
+        }else{
+            Firebase.auth.signInWithEmailAndPassword(
+                email.text.toString(),
+                password.text.toString()
+            ).addOnCompleteListener(this){
+                if(it.isSuccessful){
+                    Toast.makeText(this, "¡Login exitoso!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
                 }
+                else
+                    Toast.makeText(this, "¡Correo y contraseña inválido!", Toast.LENGTH_SHORT).show()
+                //Log.e("FIREBASE", "Login fracaso: ${it.exception?.message}")
             }
+        }
+        //Firebase
+
     }
 
     fun onRegisterClicked(view : View?){
