@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
@@ -57,6 +58,30 @@ class HomeActivity : AppCompatActivity() {
 
         intent.putExtra("book", book)
         startActivity(intent)
+    }
+
+    fun addBook(v : View){
+        val data = hashMapOf(
+            "author" to "aaa",
+            "title" to "bbb",
+            "pages" to "ccc"
+        )
+
+        Firebase.firestore.collection("books")
+            .add(data)
+            .addOnSuccessListener { documentReference ->
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "¡Error!", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    fun goToAddBookActivity(v : View){
+
     }
 
 }

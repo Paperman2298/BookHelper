@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 else
-                    Toast.makeText(this, "¡Correo y contraseña inválido!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "¡Correo o contraseña inválida!", Toast.LENGTH_SHORT).show()
                 //Log.e("FIREBASE", "Login fracaso: ${it.exception?.message}")
             }
         }
