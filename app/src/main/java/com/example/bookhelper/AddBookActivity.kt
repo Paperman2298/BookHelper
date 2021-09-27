@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -17,6 +19,8 @@ class AddBookActivity : AppCompatActivity() {
     lateinit var currentPage : EditText
     lateinit var genre : EditText
     lateinit var review : EditText
+    private val db = Firebase.firestore
+    private val user = Firebase.auth.currentUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +45,23 @@ class AddBookActivity : AppCompatActivity() {
         )
 
 
-        Firebase.firestore.collection("books")
+        db.collection("books")
             .add(data)
             .addOnSuccessListener { documentReference ->
-                Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, HomeActivity::class.java)
-                startActivity(intent)
+                var uid = ""
+                val docRef = db.collection("users").whereEqualTo("email", user?.email)
+                    docRef.get().addOnSuccessListener {
+                        for(doc in it){
+                            uid = doc.data.getValue("uid").toString()
+                        }
+
+                        val userRef = db.collection("users").document(uid)
+                        userRef.update("books", FieldValue.arrayUnion(title.text.toString()))
+                        Toast.makeText(this, "¡Registro exitoso!", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, HomeActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "¡Error al registrar!", Toast.LENGTH_SHORT).show()

@@ -54,8 +54,11 @@ class RegisterActivity : AppCompatActivity() {
                             Firebase.firestore.collection("users")
                                 .add(data)
                                 .addOnSuccessListener { documentReference ->
-                                    val intent = Intent(this, LoginActivity::class.java)
-                                    startActivity(intent)
+                                    val docRef = Firebase.firestore.collection("users").document(documentReference.id)
+                                    docRef.update("uid", documentReference.id).addOnSuccessListener {
+                                        val intent = Intent(this, LoginActivity::class.java)
+                                        startActivity(intent)
+                                    }
                                 }
                                 .addOnFailureListener { e ->
                                     Toast.makeText(this, "¡Error!", Toast.LENGTH_SHORT).show()
