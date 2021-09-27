@@ -55,7 +55,7 @@ class HomeActivity : AppCompatActivity() {
         book.add(curAuthor.text.toString())
         book.add(curPages.text.toString())
 
-        intent.putExtra("book", book)
+        intent.putExtra("book", curTitle.text.toString())
         startActivity(intent)
     }
 
