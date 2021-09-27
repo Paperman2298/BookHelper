@@ -1,6 +1,5 @@
 package com.example.bookhelper
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +43,7 @@ class CustomAdapter(a : ArrayList<String>, b : ArrayList<String>, c : ArrayList<
 
         init {
             itemImage = itemView.findViewById(R.id.item_image)
-            itemTitle = itemView.findViewById(R.id.item_title)
+            itemTitle = itemView.findViewById(R.id.item_book_title)
             itemAuthor = itemView.findViewById(R.id.item_author)
             itemPages = itemView.findViewById(R.id.item_pages)
         }

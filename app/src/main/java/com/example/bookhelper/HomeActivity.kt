@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
@@ -49,7 +48,7 @@ class HomeActivity : AppCompatActivity() {
     fun onCardClick(v : View){
         val intent = Intent(this, BookDetailActivity::class.java)
         val book = ArrayList<String>()
-        val curTitle: TextView = v.findViewById(R.id.item_title)
+        val curTitle: TextView = v.findViewById(R.id.item_book_title)
         val curAuthor: TextView = v.findViewById(R.id.item_author)
         val curPages: TextView = v.findViewById(R.id.item_pages)
         book.add(curTitle.text.toString())
