@@ -60,28 +60,9 @@ class HomeActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun addBook(v : View){
-        val data = hashMapOf(
-            "author" to "aaa",
-            "title" to "bbb",
-            "pages" to "ccc"
-        )
-
-        Firebase.firestore.collection("books")
-            .add(data)
-            .addOnSuccessListener { documentReference ->
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(intent);
-                overridePendingTransition(0, 0);
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "¡Error!", Toast.LENGTH_SHORT).show()
-            }
-    }
-
     fun goToAddBookActivity(v : View){
-
+        val intent = Intent(this, AddBookActivity::class.java)
+        startActivity(intent)
     }
 
     fun goToProfileActivity(v : View){

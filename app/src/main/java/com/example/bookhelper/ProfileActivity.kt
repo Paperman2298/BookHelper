@@ -1,7 +1,9 @@
 package com.example.bookhelper
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -10,8 +12,8 @@ import com.google.firebase.ktx.Firebase
 class ProfileActivity : AppCompatActivity() {
 
     lateinit var name : TextView
-    val db = Firebase.firestore
-    val user = Firebase.auth.currentUser
+    private val db = Firebase.firestore
+    private val user = Firebase.auth.currentUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,5 +29,10 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    fun goToAddBookActivity(v : View){
+        val intent = Intent(this, AddBookActivity::class.java)
+        startActivity(intent)
     }
 }
