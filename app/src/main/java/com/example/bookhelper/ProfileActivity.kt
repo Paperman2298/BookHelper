@@ -45,9 +45,12 @@ class ProfileActivity : AppCompatActivity() {
             docRef.get().addOnSuccessListener {
                 for(document in it){
                     name.text = "¡Welcome ${document.data.getValue("name")}!"
-                    val books = document.data.getValue("books") as ArrayList<String>
-                    arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, books)
 
+                    val books = document.data.getValue("books") as ArrayList<String>
+                    val currentPages = ArrayList<String>()
+                    currentPages.add("31")
+
+                    arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, books)
                     lastBook.text = books[books.size - 1]
                     list.adapter = arrayAdapter
 
@@ -69,5 +72,12 @@ class ProfileActivity : AppCompatActivity() {
     fun goToHomeActivity(v : View){
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
+    }
+
+    fun logOut(v : View){
+        Firebase.auth.signOut()
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
