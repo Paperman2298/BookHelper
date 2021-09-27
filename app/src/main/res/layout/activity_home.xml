@@ -49,6 +49,7 @@
         android:layout_marginTop="36dp"
         android:layout_marginEnd="20dp"
         android:minHeight="48dp"
+        android:onClick="goToProfileActivity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_profile"

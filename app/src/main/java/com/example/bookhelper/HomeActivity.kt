@@ -84,4 +84,9 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
+    fun goToProfileActivity(v : View){
+        val intent = Intent(this, ProfileActivity::class.java)
+        startActivity(intent)
+    }
+
 }
