@@ -51,9 +51,11 @@ class ProfileActivity : AppCompatActivity() {
                     currentPages.add("31")
                     currentPages.add("22")
 
-                    arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, books)
-                    lastBook.text = books[books.size - 1]
-                    list.adapter = arrayAdapter
+                    if(books.size > 0){
+                        arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, books)
+                        lastBook.text = books[books.size - 1]
+                        list.adapter = arrayAdapter
+                    }
 
                     list.setOnItemClickListener(){parent, v, position, id ->
                         Toast.makeText(this, "Current Page: ${currentPages[position]}", Toast.LENGTH_SHORT).show()
