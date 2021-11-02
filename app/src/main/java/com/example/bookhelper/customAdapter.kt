@@ -1,6 +1,5 @@
 package com.example.bookhelper
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,11 +17,7 @@ class CustomAdapter(a : ArrayList<String>, b : ArrayList<String>, c : ArrayList<
     val authors = b
     val pages = c
 
-    val images = intArrayOf(
-        R.drawable.ic_launcher_background,
-        R.drawable.ic_launcher_background,
-        R.drawable.ic_launcher_background,
-    )
+    val images = intArrayOf(titles.size)
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val v = LayoutInflater.from(viewGroup.context).inflate(R.layout.card_layout, viewGroup, false)
@@ -33,7 +28,7 @@ class CustomAdapter(a : ArrayList<String>, b : ArrayList<String>, c : ArrayList<
         viewHolder.itemTitle.text = titles[i]
         viewHolder.itemAuthor.text = authors[i]
         viewHolder.itemPages.text = pages[i]
-        viewHolder.itemImage.setImageResource(images[i])
+        viewHolder.itemImage.setImageResource(R.drawable.ic_launcher_background)
     }
 
     override fun getItemCount(): Int {
@@ -48,7 +43,7 @@ class CustomAdapter(a : ArrayList<String>, b : ArrayList<String>, c : ArrayList<
 
         init {
             itemImage = itemView.findViewById(R.id.item_image)
-            itemTitle = itemView.findViewById(R.id.item_title)
+            itemTitle = itemView.findViewById(R.id.item_book_title)
             itemAuthor = itemView.findViewById(R.id.item_author)
             itemPages = itemView.findViewById(R.id.item_pages)
         }

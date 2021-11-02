@@ -9,10 +9,12 @@ import android.widget.EditText
 import android.widget.Toast
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class RegisterActivity : AppCompatActivity() {
 
+    lateinit var name : EditText
     lateinit var email : EditText
     lateinit var password : EditText
     lateinit var confirmedPassword : EditText
@@ -21,6 +23,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        name = findViewById(R.id.registerNameEditText)
         email = findViewById(R.id.registerEmailEditText)
         password = findViewById(R.id.registerPasswordEditText)
         confirmedPassword = findViewById(R.id.registerConfirmPasswordEditText)
@@ -28,7 +31,9 @@ class RegisterActivity : AppCompatActivity() {
 
     fun onRegisterClicked(view: View?){
         //Create firebase user
-        if(email.text.toString().isEmpty()){
+        if(name.text.toString().isEmpty()){
+            Toast.makeText(this, "¡Campo nombre vacio!", Toast.LENGTH_SHORT).show()
+        }else if(email.text.toString().isEmpty()){
             Toast.makeText(this, "¡Campo correo vacio!", Toast.LENGTH_SHORT).show()
         }else if (password.text.toString().isEmpty()){
             Toast.makeText(this, "¡Campo contraseña vacio!", Toast.LENGTH_SHORT).show()
@@ -40,9 +45,25 @@ class RegisterActivity : AppCompatActivity() {
                     .addOnCompleteListener(this){
                         // Nos regresa un objeto "it" que indica si fue exitoso o no el registro
                         if (it.isSuccessful){
+                            val data = hashMapOf(
+                                "name" to name.text.toString(),
+                                "email" to email.text.toString(),
+                                "password" to password.text.toString(),
+                                "books" to ArrayList<String>()
+                            )
+                            Firebase.firestore.collection("users")
+                                .add(data)
+                                .addOnSuccessListener { documentReference ->
+                                    val docRef = Firebase.firestore.collection("users").document(documentReference.id)
+                                    docRef.update("uid", documentReference.id).addOnSuccessListener {
+                                        val intent = Intent(this, LoginActivity::class.java)
+                                        startActivity(intent)
+                                    }
+                                }
+                                .addOnFailureListener { e ->
+                                    Toast.makeText(this, "¡Error!", Toast.LENGTH_SHORT).show()
+                                }
                             Toast.makeText(this, "¡Registro exitoso!", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this, LoginActivity::class.java)
-                            startActivity(intent)
                         }else {
                             Toast.makeText(this, "¡Correo inválido!", Toast.LENGTH_SHORT).show()
                             //Log.d("FIREBASE", "Registro fracasó: ${it.exception?.message}")

@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BookHelper">
         <activity
+            android:name=".AddBookActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="true" />
+        <activity
             android:name=".BookDetailActivity"
             android:exported="true" />
         <activity

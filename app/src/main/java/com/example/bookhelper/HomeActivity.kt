@@ -48,14 +48,24 @@ class HomeActivity : AppCompatActivity() {
     fun onCardClick(v : View){
         val intent = Intent(this, BookDetailActivity::class.java)
         val book = ArrayList<String>()
-        val curTitle: TextView = v.findViewById(R.id.item_title)
+        val curTitle: TextView = v.findViewById(R.id.item_book_title)
         val curAuthor: TextView = v.findViewById(R.id.item_author)
         val curPages: TextView = v.findViewById(R.id.item_pages)
         book.add(curTitle.text.toString())
         book.add(curAuthor.text.toString())
         book.add(curPages.text.toString())
 
-        intent.putExtra("book", book)
+        intent.putExtra("book", curTitle.text.toString())
+        startActivity(intent)
+    }
+
+    fun goToAddBookActivity(v : View){
+        val intent = Intent(this, AddBookActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun goToProfileActivity(v : View){
+        val intent = Intent(this, ProfileActivity::class.java)
         startActivity(intent)
     }
 
