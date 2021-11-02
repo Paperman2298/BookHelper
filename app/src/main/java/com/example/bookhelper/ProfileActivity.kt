@@ -1,17 +1,21 @@
 package com.example.bookhelper
 
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.view.ViewParent
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import java.io.ByteArrayOutputStream
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -20,9 +24,36 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var uid : TextView
     lateinit var lastBook : TextView
     lateinit var page : TextView
+    lateinit var picture : ImageView
+    lateinit var btn : FloatingActionButton
+
     private lateinit var list : ListView
     private val db = Firebase.firestore
     private val user = Firebase.auth.currentUser
+    private val storageRef = Firebase.storage.reference
+
+    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result ->
+        val image = result.data?.extras?.get("data") as Bitmap
+        picture.setImageBitmap(image)
+
+        val profilePictureRef = storageRef.child("images/profile/${user?.uid}")
+        val baos = ByteArrayOutputStream()
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        var uploadTask = profilePictureRef.putBytes(data)
+        uploadTask.addOnFailureListener {
+            Log.e("FOTO", "NO SE SUBIO LA FOTO")
+        }.addOnSuccessListener { taskSnapshot ->
+            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+            // ...
+            Log.e("FOTO", "SE SUBIO LA FOTO")
+        }
+    }
+
+    companion object {
+        const val imageRequestCode = 100
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +66,8 @@ class ProfileActivity : AppCompatActivity() {
         lastBook = findViewById(R.id.profileLastBookTextView)
         page = findViewById(R.id.profilePageTextView)
         list = findViewById(R.id.profileListView)
+        picture = findViewById(R.id.profilePicture)
+        btn = findViewById(R.id.ppBtn)
 
         if(user != null){
 
@@ -61,9 +94,17 @@ class ProfileActivity : AppCompatActivity() {
                         Toast.makeText(this, "Current Page: ${currentPages[position]}", Toast.LENGTH_SHORT).show()
                     }
                 }
+
+
+
             }
         }
 
+    }
+
+    fun pickImageGallery(v : View){
+        val takePhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        resultLauncher.launch(takePhotoIntent)
     }
 
     fun goToAddBookActivity(v : View){
