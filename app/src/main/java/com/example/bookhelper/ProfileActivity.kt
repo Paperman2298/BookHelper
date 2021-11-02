@@ -16,6 +16,11 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
+import android.graphics.Bitmap.CompressFormat
+
+import android.graphics.BitmapFactory
+import com.bumptech.glide.Glide
+
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -31,6 +36,7 @@ class ProfileActivity : AppCompatActivity() {
     private val db = Firebase.firestore
     private val user = Firebase.auth.currentUser
     private val storageRef = Firebase.storage.reference
+    private val ONE_MEGABYTE: Long = 1024 * 1024
 
     var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result ->
         val image = result.data?.extras?.get("data") as Bitmap
@@ -49,10 +55,6 @@ class ProfileActivity : AppCompatActivity() {
             // ...
             Log.e("FOTO", "SE SUBIO LA FOTO")
         }
-    }
-
-    companion object {
-        const val imageRequestCode = 100
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +76,10 @@ class ProfileActivity : AppCompatActivity() {
             uid.text = user.uid
             email.text = user.email
 
+            storageRef.child("images/profile/${user.uid}").downloadUrl.addOnSuccessListener { result ->
+                Glide.with(this).load(result.toString()).into(picture)
+            }
+
             val docRef = db.collection("users").whereEqualTo("email", user.email)
             docRef.get().addOnSuccessListener {
                 for(document in it){
@@ -94,9 +100,6 @@ class ProfileActivity : AppCompatActivity() {
                         Toast.makeText(this, "Current Page: ${currentPages[position]}", Toast.LENGTH_SHORT).show()
                     }
                 }
-
-
-
             }
         }
 
