@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import java.util.ArrayList
 
 class HomeActivity : AppCompatActivity() {
@@ -21,6 +22,7 @@ class HomeActivity : AppCompatActivity() {
         val titles = ArrayList<String>()
         val authors = ArrayList<String>()
         val pages = ArrayList<String>()
+        val uids = ArrayList<String>()
 
 
         Firebase.firestore.collection("books")
@@ -30,11 +32,12 @@ class HomeActivity : AppCompatActivity() {
                     titles.add(documento.data.getValue("title").toString())
                     authors.add(documento.data.getValue("author").toString())
                     pages.add(documento.data.getValue("pages").toString())
+                    uids.add(documento.data.getValue("uid").toString())
                     //Log.d("FIRESTORE", "books: ${documento.data}")
                 }
 
                 val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-                val adapter = CustomAdapter(titles, authors, pages)
+                val adapter = CustomAdapter(titles, authors, pages, uids, this)
 
                 recyclerView.layoutManager = LinearLayoutManager(this)
                 recyclerView.adapter = adapter
