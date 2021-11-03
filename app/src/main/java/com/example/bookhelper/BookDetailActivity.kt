@@ -28,6 +28,7 @@ class BookDetailActivity : AppCompatActivity() {
 
     private val db = Firebase.firestore
     private val storageRef = Firebase.storage.reference
+    private var uid = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +41,6 @@ class BookDetailActivity : AppCompatActivity() {
         genre = findViewById(R.id.genreTV)
         review = findViewById(R.id.reviewTV)
         book = findViewById(R.id.bookIV)
-        var uid = ""
 
         val docRef = db.collection("books").whereEqualTo("title", intent.getStringExtra("book"))
         docRef.get().addOnSuccessListener {
@@ -72,7 +72,18 @@ class BookDetailActivity : AppCompatActivity() {
     }
 
     fun backToHome(v: View?){
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
         finish();
+    }
+
+    fun delete(v: View?){
+        db.collection("books").document(uid).delete().addOnSuccessListener{
+            Toast.makeText(this, "¡Libro eliminado!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
 

@@ -60,6 +60,7 @@ class HomeActivity : AppCompatActivity() {
 
         intent.putExtra("book", curTitle.text.toString())
         startActivity(intent)
+        finish()
     }
 
     fun goToAddBookActivity(v : View){
