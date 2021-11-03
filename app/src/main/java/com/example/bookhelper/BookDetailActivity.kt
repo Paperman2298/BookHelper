@@ -86,5 +86,11 @@ class BookDetailActivity : AppCompatActivity() {
         }
     }
 
+    fun goToEditActivity(v: View?){
+        val intent = Intent(this, EditBookActivity::class.java)
+        intent.putExtra("book", uid)
+        startActivity(intent)
+        finish();
+    }
 
 }
