@@ -104,7 +104,7 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
-    fun pickImageGallery(v : View){
+    fun takePicture(v : View){
         val takePhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         resultLauncher.launch(takePhotoIntent)
     }
