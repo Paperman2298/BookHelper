@@ -69,6 +69,7 @@ class AddBookActivity : AppCompatActivity() {
     }
 
     fun goBack(v : View){
+
         finish();
     }
 }

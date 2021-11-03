@@ -39,6 +39,7 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "¡Login exitoso!", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
+                    finish()
                 }
                 else
                     Toast.makeText(this, "¡Correo o contraseña inválida!", Toast.LENGTH_SHORT).show()
@@ -52,5 +53,6 @@ class LoginActivity : AppCompatActivity() {
     fun onRegisterClicked(view : View?){
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }

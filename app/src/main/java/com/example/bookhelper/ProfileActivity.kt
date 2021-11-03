@@ -36,7 +36,6 @@ class ProfileActivity : AppCompatActivity() {
     private val db = Firebase.firestore
     private val user = Firebase.auth.currentUser
     private val storageRef = Firebase.storage.reference
-    private val ONE_MEGABYTE: Long = 1024 * 1024
 
     var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result ->
         val image = result.data?.extras?.get("data") as Bitmap
@@ -113,12 +112,12 @@ class ProfileActivity : AppCompatActivity() {
     fun goToAddBookActivity(v : View){
         val intent = Intent(this, AddBookActivity::class.java)
         startActivity(intent)
-        finish()
     }
 
     fun goToHomeActivity(v : View){
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     fun logOut(v : View){
