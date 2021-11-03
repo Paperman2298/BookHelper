@@ -6,35 +6,58 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 class BookDetailActivity : AppCompatActivity() {
     lateinit var title: TextView
-    lateinit var review : EditText
+    lateinit var review: TextView
     lateinit var author: TextView
     lateinit var pages: TextView
-    lateinit var book: ArrayList<String>
+    lateinit var curr: TextView
+    lateinit var genre: TextView
+    lateinit var book: ImageView
+
     private val db = Firebase.firestore
+    private val storageRef = Firebase.storage.reference
+    private var uid = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_detail)
 
         title = findViewById(R.id.bookDetailTitleTextView)
-        review = findViewById(R.id.bookDetailMT)
+        author = findViewById(R.id.authorTV)
+        pages = findViewById(R.id.pagesTV)
+        curr = findViewById(R.id.currentPageTV)
+        genre = findViewById(R.id.genreTV)
+        review = findViewById(R.id.reviewTV)
+        book = findViewById(R.id.bookIV)
 
-        title.text = intent.getStringExtra("book")
         val docRef = db.collection("books").whereEqualTo("title", intent.getStringExtra("book"))
         docRef.get().addOnSuccessListener {
             for(doc in it){
-                review.setText(doc.data.getValue("review").toString())
+                title.setText("Title: " + doc.data.getValue("title").toString())
+                author.setText("Author: " + doc.data.getValue("author").toString())
+                pages.setText("Pages: " + doc.data.getValue("pages").toString())
+                curr.setText("Current Page: " + doc.data.getValue("current_page").toString())
+                genre.setText("Genre: " + doc.data.getValue("genre").toString())
+                review.setText("Review: " + doc.data.getValue("review").toString())
+                uid = doc.data.getValue("uid").toString()
             }
+
+            storageRef.child("images/books/${uid}").downloadUrl.addOnSuccessListener { result ->
+                Glide.with(this).load(result.toString()).into(book)
+            }
+
         }
 
 //        title = findViewById(R.id.detail_title)
@@ -49,8 +72,25 @@ class BookDetailActivity : AppCompatActivity() {
     }
 
     fun backToHome(v: View?){
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
         finish();
     }
 
+    fun delete(v: View?){
+        db.collection("books").document(uid).delete().addOnSuccessListener{
+            Toast.makeText(this, "¡Libro eliminado!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+
+    fun goToEditActivity(v: View?){
+        val intent = Intent(this, EditBookActivity::class.java)
+        intent.putExtra("book", uid)
+        startActivity(intent)
+        finish();
+    }
 
 }

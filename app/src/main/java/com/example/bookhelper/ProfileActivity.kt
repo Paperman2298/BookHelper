@@ -26,7 +26,7 @@ class ProfileActivity : AppCompatActivity() {
 
     lateinit var name : TextView
     lateinit var email : TextView
-    lateinit var uid : TextView
+    lateinit var username : EditText
     lateinit var lastBook : TextView
     lateinit var page : TextView
     lateinit var picture : ImageView
@@ -36,7 +36,7 @@ class ProfileActivity : AppCompatActivity() {
     private val db = Firebase.firestore
     private val user = Firebase.auth.currentUser
     private val storageRef = Firebase.storage.reference
-    private val ONE_MEGABYTE: Long = 1024 * 1024
+    private var uid = ""
 
     var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result ->
         val image = result.data?.extras?.get("data") as Bitmap
@@ -64,7 +64,7 @@ class ProfileActivity : AppCompatActivity() {
 
         name = findViewById(R.id.profileNameTextView)
         email = findViewById(R.id.profileEmailTextView)
-        uid = findViewById(R.id.profileIdTextView)
+        username = findViewById(R.id.usernameET)
         lastBook = findViewById(R.id.profileLastBookTextView)
         page = findViewById(R.id.profilePageTextView)
         list = findViewById(R.id.profileListView)
@@ -72,8 +72,6 @@ class ProfileActivity : AppCompatActivity() {
         btn = findViewById(R.id.ppBtn)
 
         if(user != null){
-
-            uid.text = user.uid
             email.text = user.email
 
             storageRef.child("images/profile/${user.uid}").downloadUrl.addOnSuccessListener { result ->
@@ -84,6 +82,8 @@ class ProfileActivity : AppCompatActivity() {
             docRef.get().addOnSuccessListener {
                 for(document in it){
                     name.text = "¡Welcome ${document.data.getValue("name")}!"
+                    username.setText(document.data.getValue("name").toString())
+                    uid = document.data.getValue("uid").toString()
 
                     val books = document.data.getValue("books") as ArrayList<String>
                     val currentPages = ArrayList<String>()
@@ -105,7 +105,7 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
-    fun pickImageGallery(v : View){
+    fun takePicture(v : View){
         val takePhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         resultLauncher.launch(takePhotoIntent)
     }
@@ -113,12 +113,12 @@ class ProfileActivity : AppCompatActivity() {
     fun goToAddBookActivity(v : View){
         val intent = Intent(this, AddBookActivity::class.java)
         startActivity(intent)
-        finish()
     }
 
     fun goToHomeActivity(v : View){
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     fun logOut(v : View){
@@ -126,5 +126,16 @@ class ProfileActivity : AppCompatActivity() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    fun updateInfo(v : View){
+        val docRef = Firebase.firestore.collection("users").document(uid)
+        Log.e("Aaaaaaa", uid)
+        docRef.update("name", username.text.toString()).addOnSuccessListener {
+            Toast.makeText(this, "¡Succesful update!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+            finish();
+        }
     }
 }
