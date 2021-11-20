@@ -8,9 +8,11 @@
 
     <EditText
         android:id="@+id/loginPasswordEditText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="37dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="40dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
@@ -20,10 +22,11 @@
 
     <EditText
         android:id="@+id/loginEmailEditText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
-        android:layout_marginBottom="45dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="30dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textPersonName"
@@ -33,21 +36,23 @@
 
     <Button
         android:id="@+id/LoginButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="27dp"
-        android:layout_marginBottom="34dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:onClick="onLoginClicked"
         android:text="Login"
-        app:layout_constraintBottom_toTopOf="@+id/makeAccountTextView"
-        app:layout_constraintStart_toStartOf="@+id/makeAccountTextView" />
+        app:layout_constraintBottom_toTopOf="@+id/googleButton"
+        app:layout_constraintStart_toStartOf="@+id/googleButton" />
 
     <Button
         android:id="@+id/moveToRegisterButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="14dp"
         android:onClick="onRegisterClicked"
         android:text="Register"
         app:layout_constraintStart_toStartOf="@+id/makeAccountTextView"
@@ -60,6 +65,35 @@
         android:text="Don't have an account?"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.877" />
+
+    <Button
+        android:id="@+id/googleButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="40dp"
+        android:drawableLeft="@drawable/googleg_standard_color_18"
+        android:text="Google"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/makeAccountTextView"
+        app:layout_constraintStart_toStartOf="@+id/makeAccountTextView" />
+
+    <TextView
+        android:id="@+id/text_bookhelper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="80dp"
+        android:text="BOOK \nHELPER"
+        android:textAlignment="center"
+        android:textSize="60dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/loginEmailEditText"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
