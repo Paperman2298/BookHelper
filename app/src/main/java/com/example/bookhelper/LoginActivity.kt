@@ -55,4 +55,10 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+    fun onForgotPasswordClicked(view : View?){
+        val intent = Intent(this, ForgotPasswordActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 }
