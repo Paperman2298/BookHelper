@@ -56,21 +56,35 @@ class AddBookActivity : AppCompatActivity() {
     }
 
     fun addBook(v : View){
-        val data = hashMapOf(
-            "author" to author.text.toString(),
-            "title" to title.text.toString(),
-            "pages" to pages.text.toString(),
-            "current_page" to currentPage.text.toString(),
-            "genre" to genre.text.toString(),
-            "review" to review.text.toString()
-        )
+
+        if(author.text.isEmpty()){
+            Toast.makeText(this, "¡Campo author vacío!", Toast.LENGTH_SHORT).show()
+        }else if(title.text.isEmpty()){
+            Toast.makeText(this, "¡Campo título vacío!", Toast.LENGTH_SHORT).show()
+        }else if(pages.text.isEmpty()){
+            Toast.makeText(this, "¡Campo pages vacío!", Toast.LENGTH_SHORT).show()
+        }else if(currentPage.text.isEmpty()){
+            Toast.makeText(this, "¡Campo current page vacío!", Toast.LENGTH_SHORT).show()
+        }else if(genre.text.isEmpty()){
+            Toast.makeText(this, "¡Campo genre vacío!", Toast.LENGTH_SHORT).show()
+        }else if(review.text.isEmpty()){
+            Toast.makeText(this, "¡Campo review vacío!", Toast.LENGTH_SHORT).show()
+        }else{
+            val data = hashMapOf(
+                "author" to author.text.toString(),
+                "title" to title.text.toString(),
+                "pages" to pages.text.toString(),
+                "current_page" to currentPage.text.toString(),
+                "genre" to genre.text.toString(),
+                "review" to review.text.toString()
+            )
 
 
-        db.collection("books")
-            .add(data)
-            .addOnSuccessListener { documentReference ->
-                var uid = ""
-                val docRef = db.collection("users").whereEqualTo("email", user?.email)
+            db.collection("books")
+                .add(data)
+                .addOnSuccessListener { documentReference ->
+                    var uid = ""
+                    val docRef = db.collection("users").whereEqualTo("email", user?.email)
                     docRef.get().addOnSuccessListener {
                         for(doc in it){
                             uid = doc.data.getValue("uid").toString()
@@ -99,10 +113,11 @@ class AddBookActivity : AppCompatActivity() {
                             }
                         }
                     }
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "¡Error al registrar!", Toast.LENGTH_SHORT).show()
-            }
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "¡Error al registrar!", Toast.LENGTH_SHORT).show()
+                }
+        }
     }
 
     fun takePicture(v : View){
