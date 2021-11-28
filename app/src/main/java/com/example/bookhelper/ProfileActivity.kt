@@ -71,6 +71,7 @@ class ProfileActivity : AppCompatActivity() {
         picture = findViewById(R.id.profilePicture)
         btn = findViewById(R.id.ppBtn)
 
+
         if(user != null){
             email.text = user.email
 
@@ -85,12 +86,19 @@ class ProfileActivity : AppCompatActivity() {
                     username.setText(document.data.getValue("name").toString())
                     uid = document.data.getValue("uid").toString()
 
+
                     val books = document.data.getValue("books") as ArrayList<String>
                     val currentPages = ArrayList<String>()
-                    currentPages.add("31")
-                    currentPages.add("22")
 
                     if(books.size > 0){
+                        for(book in books){
+                            db.collection("books").whereEqualTo("title", book).get().addOnSuccessListener{
+                                for(document in it){
+                                    currentPages.add("${document.data.getValue("current_page")}")
+                                }
+                            }
+                        }
+
                         arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, books)
                         lastBook.text = books[books.size - 1]
                         list.adapter = arrayAdapter
@@ -99,6 +107,8 @@ class ProfileActivity : AppCompatActivity() {
                     list.setOnItemClickListener(){parent, v, position, id ->
                         Toast.makeText(this, "Current Page: ${currentPages[position]}", Toast.LENGTH_SHORT).show()
                     }
+
+
                 }
             }
         }
