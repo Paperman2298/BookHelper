@@ -57,6 +57,10 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
+    fun <T> reverseList(list: List<T>): List<T> {
+        return list.indices.map { i: Int -> list[list.size - 1 - i] }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -88,7 +92,7 @@ class ProfileActivity : AppCompatActivity() {
 
 
                     val books = document.data.getValue("books") as ArrayList<String>
-                    val currentPages = ArrayList<String>()
+                    var currentPages = ArrayList<String>()
 
                     if(books.size > 0){
                         for(book in books){
@@ -102,6 +106,7 @@ class ProfileActivity : AppCompatActivity() {
                         arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, books)
                         lastBook.text = books[books.size - 1]
                         list.adapter = arrayAdapter
+
                     }
 
                     list.setOnItemClickListener(){parent, v, position, id ->
