@@ -57,6 +57,10 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
+    fun <T> reverseList(list: List<T>): List<T> {
+        return list.indices.map { i: Int -> list[list.size - 1 - i] }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -70,6 +74,7 @@ class ProfileActivity : AppCompatActivity() {
         list = findViewById(R.id.profileListView)
         picture = findViewById(R.id.profilePicture)
         btn = findViewById(R.id.ppBtn)
+
 
         if(user != null){
             email.text = user.email
@@ -85,20 +90,30 @@ class ProfileActivity : AppCompatActivity() {
                     username.setText(document.data.getValue("name").toString())
                     uid = document.data.getValue("uid").toString()
 
+
                     val books = document.data.getValue("books") as ArrayList<String>
-                    val currentPages = ArrayList<String>()
-                    currentPages.add("31")
-                    currentPages.add("22")
+                    var currentPages = ArrayList<String>()
 
                     if(books.size > 0){
+                        for(book in books){
+                            db.collection("books").whereEqualTo("title", book).get().addOnSuccessListener{
+                                for(document in it){
+                                    currentPages.add("${document.data.getValue("current_page")}")
+                                }
+                            }
+                        }
+
                         arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, books)
                         lastBook.text = books[books.size - 1]
                         list.adapter = arrayAdapter
+
                     }
 
                     list.setOnItemClickListener(){parent, v, position, id ->
                         Toast.makeText(this, "Current Page: ${currentPages[position]}", Toast.LENGTH_SHORT).show()
                     }
+
+
                 }
             }
         }
