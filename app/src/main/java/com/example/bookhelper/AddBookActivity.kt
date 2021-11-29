@@ -55,6 +55,8 @@ class AddBookActivity : AppCompatActivity() {
 
     }
 
+    fun String.intOrString() = toIntOrNull() ?: this
+
     fun addBook(v : View){
 
         if(author.text.isEmpty()){
@@ -69,6 +71,10 @@ class AddBookActivity : AppCompatActivity() {
             Toast.makeText(this, "¡Campo genre vacío!", Toast.LENGTH_SHORT).show()
         }else if(review.text.isEmpty()){
             Toast.makeText(this, "¡Campo review vacío!", Toast.LENGTH_SHORT).show()
+        }else if(pages.text.toString().intOrString() is String){
+            Toast.makeText(this, "¡Campo pages necesita un valor númerico!", Toast.LENGTH_SHORT).show()
+        }else if(currentPage.text.toString().intOrString() is String){
+            Toast.makeText(this, "¡Campo current page necesita un valor númerico!", Toast.LENGTH_SHORT).show()
         }else{
             val data = hashMapOf(
                 "author" to author.text.toString(),
