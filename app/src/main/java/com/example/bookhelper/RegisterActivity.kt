@@ -58,6 +58,7 @@ class RegisterActivity : AppCompatActivity() {
                                     docRef.update("uid", documentReference.id).addOnSuccessListener {
                                         val intent = Intent(this, LoginActivity::class.java)
                                         startActivity(intent)
+                                        finish()
                                     }
                                 }
                                 .addOnFailureListener { e ->
