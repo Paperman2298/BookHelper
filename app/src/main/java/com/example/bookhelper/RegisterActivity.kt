@@ -15,6 +15,8 @@ import com.google.firebase.ktx.Firebase
 class RegisterActivity : AppCompatActivity() {
 
     lateinit var name : EditText
+    lateinit var surname : EditText
+    lateinit var age : EditText
     lateinit var email : EditText
     lateinit var password : EditText
     lateinit var confirmedPassword : EditText
@@ -24,10 +26,14 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
         name = findViewById(R.id.registerNameEditText)
+        surname = findViewById(R.id.registerSurnameEditText)
+        age = findViewById(R.id.registerAgeEditText)
         email = findViewById(R.id.registerEmailEditText)
         password = findViewById(R.id.registerPasswordEditText)
         confirmedPassword = findViewById(R.id.registerConfirmPasswordEditText)
     }
+
+    fun String.intOrString() = toIntOrNull() ?: this
 
     fun onRegisterClicked(view: View?){
         //Create firebase user
@@ -35,6 +41,12 @@ class RegisterActivity : AppCompatActivity() {
             Toast.makeText(this, "¡Campo nombre vacio!", Toast.LENGTH_SHORT).show()
         }else if(email.text.toString().isEmpty()){
             Toast.makeText(this, "¡Campo correo vacio!", Toast.LENGTH_SHORT).show()
+        }else if(surname.text.toString().isEmpty()){
+            Toast.makeText(this, "¡Campo apellido vacio!", Toast.LENGTH_SHORT).show()
+        }else if(age.text.toString().isEmpty()){
+            Toast.makeText(this, "¡Campo edad vacio!", Toast.LENGTH_SHORT).show()
+        }else if(age.text.toString().intOrString() is String){
+            Toast.makeText(this, "¡Campo edad necesita ser un número!", Toast.LENGTH_SHORT).show()
         }else if (password.text.toString().isEmpty()){
             Toast.makeText(this, "¡Campo contraseña vacio!", Toast.LENGTH_SHORT).show()
         }else if (confirmedPassword.text.toString().isEmpty()){
@@ -47,6 +59,8 @@ class RegisterActivity : AppCompatActivity() {
                         if (it.isSuccessful){
                             val data = hashMapOf(
                                 "name" to name.text.toString(),
+                                "surname" to surname.text.toString(),
+                                "age" to age.text.toString(),
                                 "email" to email.text.toString(),
                                 "password" to password.text.toString(),
                                 "books" to ArrayList<String>()
