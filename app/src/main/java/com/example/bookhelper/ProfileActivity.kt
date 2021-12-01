@@ -27,18 +27,20 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var name : TextView
     lateinit var email : TextView
     lateinit var username : EditText
+    lateinit var surname : EditText
+    lateinit var age : EditText
     lateinit var lastBook : TextView
     lateinit var page : TextView
     lateinit var picture : ImageView
     lateinit var btn : FloatingActionButton
 
-    private lateinit var list : ListView
+//    private lateinit var list : ListView
     private val db = Firebase.firestore
     private val user = Firebase.auth.currentUser
     private val storageRef = Firebase.storage.reference
     private var uid = ""
 
-    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result ->
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result ->
         val image = result.data?.extras?.get("data") as Bitmap
         picture.setImageBitmap(image)
 
@@ -57,21 +59,19 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    fun <T> reverseList(list: List<T>): List<T> {
-        return list.indices.map { i: Int -> list[list.size - 1 - i] }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
-        var arrayAdapter : ArrayAdapter<String>
+//        var arrayAdapter : ArrayAdapter<String>
 
         name = findViewById(R.id.profileNameTextView)
         email = findViewById(R.id.profileEmailTextView)
         username = findViewById(R.id.usernameET)
-        lastBook = findViewById(R.id.profileLastBookTextView)
-        page = findViewById(R.id.profilePageTextView)
-        list = findViewById(R.id.profileListView)
+        surname = findViewById(R.id.surnameET)
+        age = findViewById(R.id.ageET)
+//        lastBook = findViewById(R.id.profileLastBookTextView)
+//        page = findViewById(R.id.profilePageTextView)
+//        list = findViewById(R.id.profileListView)
         picture = findViewById(R.id.profilePicture)
         btn = findViewById(R.id.ppBtn)
 
@@ -88,30 +88,32 @@ class ProfileActivity : AppCompatActivity() {
                 for(document in it){
                     name.text = "¡Welcome ${document.data.getValue("name")}!"
                     username.setText(document.data.getValue("name").toString())
+                    surname.setText(document.data.getValue("surname").toString())
+                    age.setText(document.data.getValue("age").toString())
                     uid = document.data.getValue("uid").toString()
 
 
-                    val books = document.data.getValue("books") as ArrayList<String>
-                    var currentPages = ArrayList<String>()
+//                    val books = document.data.getValue("books") as ArrayList<String>
+//                    var currentPages = ArrayList<String>()
 
-                    if(books.size > 0){
-                        for(book in books){
-                            db.collection("books").whereEqualTo("title", book).get().addOnSuccessListener{
-                                for(document in it){
-                                    currentPages.add("${document.data.getValue("current_page")}")
-                                }
-                            }
-                        }
+//                    if(books.size > 0){
+//                        for(book in books){
+//                            db.collection("books").whereEqualTo("title", book).get().addOnSuccessListener{
+//                                for(document in it){
+//                                    currentPages.add("${document.data.getValue("current_page")}")
+//                                }
+//                            }
+//                        }
+//
+//                        arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, books)
+//                        lastBook.text = books[books.size - 1]
+//                        list.adapter = arrayAdapter
+//
+//                    }
 
-                        arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, books)
-                        lastBook.text = books[books.size - 1]
-                        list.adapter = arrayAdapter
-
-                    }
-
-                    list.setOnItemClickListener(){parent, v, position, id ->
-                        Toast.makeText(this, "Current Page: ${currentPages[position]}", Toast.LENGTH_SHORT).show()
-                    }
+//                    list.setOnItemClickListener(){parent, v, position, id ->
+//                        Toast.makeText(this, "Current Page: ${currentPages[position]}", Toast.LENGTH_SHORT).show()
+//                    }
 
 
                 }
@@ -145,12 +147,16 @@ class ProfileActivity : AppCompatActivity() {
 
     fun updateInfo(v : View){
         val docRef = Firebase.firestore.collection("users").document(uid)
-        Log.e("Aaaaaaa", uid)
         docRef.update("name", username.text.toString()).addOnSuccessListener {
-            Toast.makeText(this, "¡Succesful update!", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
-            finish();
+            docRef.update("surname", surname.text.toString()).addOnSuccessListener {
+                docRef.update("age", age.text.toString()).addOnSuccessListener {
+                    Toast.makeText(this, "¡Succesful update!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    startActivity(intent)
+                    finish();
+                }
+            }
         }
+
     }
 }

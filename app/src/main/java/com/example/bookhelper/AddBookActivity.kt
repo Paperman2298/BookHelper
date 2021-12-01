@@ -100,7 +100,7 @@ class AddBookActivity : AppCompatActivity() {
                         docRef.update("uid", documentReference.id).addOnSuccessListener {
 
                             val userRef = db.collection("users").document(uid)
-                            userRef.update("books", FieldValue.arrayUnion(title.text.toString())).addOnSuccessListener {
+                            userRef.update("books", FieldValue.arrayUnion(documentReference.id)).addOnSuccessListener {
 
                                 val profilePictureRef = storageRef.child("images/books/${documentReference.id}")
                                 val baos = ByteArrayOutputStream()
