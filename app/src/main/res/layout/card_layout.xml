@@ -11,6 +11,7 @@
     card_view:contentPadding="4dp">
 
     <RelativeLayout
+        android:id="@+id/card_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onCardClick"
@@ -57,6 +58,17 @@
             android:layout_below="@id/item_author"
             android:layout_toEndOf="@+id/item_image"
             android:text="Pages"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/item_current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_pages"
+
+            android:layout_toEndOf="@+id/item_image"
+            android:text="Current"
             android:textColor="@color/white"
             android:textStyle="bold" />
     </RelativeLayout>

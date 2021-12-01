@@ -1,11 +1,14 @@
 package com.example.bookhelper
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
@@ -29,6 +32,7 @@ class HomeActivity : AppCompatActivity() {
         val authors = ArrayList<String>()
         val pages = ArrayList<String>()
         val uids = ArrayList<String>()
+        val currentPages = ArrayList<String>()
 
         if(user != null){
             db.collection("users").whereEqualTo("email", user.email).get().addOnSuccessListener {
@@ -44,20 +48,19 @@ class HomeActivity : AppCompatActivity() {
                         authors.add(it.data?.getValue("author").toString())
                         pages.add(it.data?.getValue("pages").toString())
                         uids.add(it.data?.getValue("uid").toString())
+                        currentPages.add(it.data?.getValue("current_page").toString())
 
                         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-                        val adapter = CustomAdapter(titles, authors, pages, uids, this)
+                        val adapter = CustomAdapter(titles, authors, pages, uids, currentPages, this)
 
                         recyclerView.layoutManager = LinearLayoutManager(this)
                         recyclerView.adapter = adapter
+
                     }.addOnFailureListener{
                         Log.e("FIRESTORE", "error al leer books: ${it.message}")
                     }
 
-
                 }
-
-
 
 
 
@@ -69,6 +72,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun onCardClick(v : View){
+        Log.e("VIEW", "${v}")
         val intent = Intent(this, BookDetailActivity::class.java)
         val book = ArrayList<String>()
         val curTitle: TextView = v.findViewById(R.id.item_book_title)
@@ -81,6 +85,16 @@ class HomeActivity : AppCompatActivity() {
         intent.putExtra("book", curTitle.text.toString())
         startActivity(intent)
         finish()
+    }
+
+    private fun checkColor(v : View){
+        val curr : TextView = v.findViewById(R.id.item_current)
+        val pages : TextView = v.findViewById(R.id.item_pages)
+
+        if(curr.text.toString() == pages.text.toString()){
+            v.setBackgroundColor(Color.GREEN)
+        }
+
     }
 
     fun goToAddBookActivity(v : View){
