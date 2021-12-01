@@ -113,4 +113,14 @@
         app:layout_constraintStart_toEndOf="@+id/button"
         app:layout_constraintTop_toTopOf="@+id/editBtn" />
 
+    <Button
+        android:id="@+id/publishBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="publishBook"
+        android:text="Publish"
+        app:layout_constraintEnd_toStartOf="@+id/deleteBtn"
+        app:layout_constraintStart_toEndOf="@+id/editBtn"
+        app:layout_constraintTop_toTopOf="@+id/deleteBtn" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -71,6 +71,17 @@ class BookDetailActivity : AppCompatActivity() {
 //        pages.text = book[2]
     }
 
+    fun publishBook(v : View?){
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, "I'm currently reading this book: ${title.text.slice(7 until title.length())}!!!")
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
+    }
+
     fun backToHome(v: View?){
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
