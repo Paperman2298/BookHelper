@@ -7,9 +7,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.ktx.auth
@@ -30,6 +28,7 @@ class AddBookActivity : AppCompatActivity() {
     lateinit var btn : FloatingActionButton
     lateinit var picture : ImageView
     lateinit var bitmap : Bitmap
+    lateinit var spinner : Spinner
 
     private val db = Firebase.firestore
     private val user = Firebase.auth.currentUser
@@ -48,10 +47,23 @@ class AddBookActivity : AppCompatActivity() {
         author = findViewById(R.id.addBookAuthorET)
         pages = findViewById(R.id.addBookPagesET)
         currentPage = findViewById(R.id.addBookCurrentPageET)
-        genre = findViewById(R.id.addBookGenreET)
+//        genre = findViewById(R.id.addBookGenreET)
         review = findViewById(R.id.addBookReviewTM)
         btn = findViewById(R.id.takePhotoBtn)
         picture = findViewById(R.id.bookPreviewImageView)
+        spinner = findViewById(R.id.addBookSpinner)
+
+        db.collection("tools").document("genres").get().addOnSuccessListener {
+            val myGenres = it.data?.getValue("list") as ArrayList<String>
+
+            if(spinner != null){
+                val adapter = ArrayAdapter(this,
+                    android.R.layout.simple_spinner_item, myGenres)
+                spinner.adapter = adapter
+            }
+        }
+
+
 
     }
 
@@ -67,8 +79,6 @@ class AddBookActivity : AppCompatActivity() {
             Toast.makeText(this, "¡Campo pages vacío!", Toast.LENGTH_SHORT).show()
         }else if(currentPage.text.isEmpty()){
             Toast.makeText(this, "¡Campo current page vacío!", Toast.LENGTH_SHORT).show()
-        }else if(genre.text.isEmpty()){
-            Toast.makeText(this, "¡Campo genre vacío!", Toast.LENGTH_SHORT).show()
         }else if(review.text.isEmpty()){
             Toast.makeText(this, "¡Campo review vacío!", Toast.LENGTH_SHORT).show()
         }else if(pages.text.toString().intOrString() is String){
@@ -81,7 +91,7 @@ class AddBookActivity : AppCompatActivity() {
                 "title" to title.text.toString(),
                 "pages" to pages.text.toString(),
                 "current_page" to currentPage.text.toString(),
-                "genre" to genre.text.toString(),
+                "genre" to spinner.selectedItem.toString(),
                 "review" to review.text.toString()
             )
 

@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.RelativeLayout
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,21 +24,22 @@ class HomeActivity : AppCompatActivity() {
     private val user = Firebase.auth.currentUser
     private var userId = ""
 
+    lateinit var spinner : Spinner
+    var myBooks : ArrayList<String> = ArrayList<String>()
+    var titles = ArrayList<String>()
+    var authors = ArrayList<String>()
+    var pages = ArrayList<String>()
+    var uids = ArrayList<String>()
+    var currentPages = ArrayList<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.supportActionBar?.hide()
         setContentView(R.layout.activity_home)
 
 
-        val titles = ArrayList<String>()
-        val authors = ArrayList<String>()
-        val pages = ArrayList<String>()
-        val uids = ArrayList<String>()
-        val currentPages = ArrayList<String>()
-
         if(user != null){
             db.collection("users").whereEqualTo("email", user.email).get().addOnSuccessListener {
-                var myBooks : ArrayList<String> = ArrayList<String>()
 
                 for(doc in it){
                     myBooks = doc.data.getValue("books") as ArrayList<String>
@@ -59,16 +62,50 @@ class HomeActivity : AppCompatActivity() {
                     }.addOnFailureListener{
                         Log.e("FIRESTORE", "error al leer books: ${it.message}")
                     }
-
                 }
-
-
-
             }
-
-
         }
 
+        spinner = findViewById(R.id.homeSpinner)
+
+        db.collection("tools").document("genres").get().addOnSuccessListener {
+            val myGenres = it.data?.getValue("list") as ArrayList<String>
+
+            if(spinner != null){
+                val adapter = ArrayAdapter(this,
+                    android.R.layout.simple_spinner_item, myGenres)
+                spinner.adapter = adapter
+            }
+        }
+
+    }
+
+    fun filter(v : View){
+        val myGenre = spinner.selectedItem.toString()
+        titles = ArrayList<String>()
+        authors = ArrayList<String>()
+        pages = ArrayList<String>()
+        uids = ArrayList<String>()
+        currentPages = ArrayList<String>()
+
+        for(book in myBooks){
+            db.collection("books").document(book).get().addOnSuccessListener {
+                if(it.data?.getValue("genre") == myGenre){
+                    titles.add(it.data?.getValue("title").toString())
+                    authors.add(it.data?.getValue("author").toString())
+                    pages.add(it.data?.getValue("pages").toString())
+                    uids.add(it.data?.getValue("uid").toString())
+                    currentPages.add(it.data?.getValue("current_page").toString())
+
+                    val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+                    val adapter = CustomAdapter(titles, authors, pages, uids, currentPages, this)
+
+                    recyclerView.layoutManager = LinearLayoutManager(this)
+                    recyclerView.adapter = adapter
+                }
+
+            }
+        }
     }
 
     fun onCardClick(v : View){
