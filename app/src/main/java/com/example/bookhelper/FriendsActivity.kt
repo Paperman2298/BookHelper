@@ -53,7 +53,11 @@ class FriendsActivity : AppCompatActivity() {
 
         val currentFriend : TextView = v.findViewById(R.id.friendsName)
         val idx = friends.indexOf(currentFriend.text.toString())
-        Log.e("Friend: ", data[idx])
+
+        val intent = Intent(this, FriendsBooksActivity::class.java)
+        intent.putExtra("friend", data[idx])
+        startActivity(intent)
+
     }
 
     fun goToProfileActivity(v : View){
