@@ -159,4 +159,10 @@ class ProfileActivity : AppCompatActivity() {
         }
 
     }
+
+    fun goToFriends(v : View){
+        val intent = Intent(this, FriendsActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 }

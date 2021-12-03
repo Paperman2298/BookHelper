@@ -109,7 +109,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun onCardClick(v : View){
-        Log.e("VIEW", "${v}")
         val intent = Intent(this, BookDetailActivity::class.java)
         val book = ArrayList<String>()
         val curTitle: TextView = v.findViewById(R.id.item_book_title)
