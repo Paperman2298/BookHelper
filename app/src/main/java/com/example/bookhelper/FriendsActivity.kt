@@ -52,7 +52,8 @@ class FriendsActivity : AppCompatActivity() {
     fun toFriendsProfile(v : View){
 
         val currentFriend : TextView = v.findViewById(R.id.friendsName)
-        Log.e("Friend: ", currentFriend.text.toString())
+        val idx = friends.indexOf(currentFriend.text.toString())
+        Log.e("Friend: ", data[idx])
     }
 
     fun goToProfileActivity(v : View){

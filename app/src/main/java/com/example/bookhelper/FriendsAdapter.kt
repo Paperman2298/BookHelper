@@ -11,14 +11,12 @@ class FriendsAdapter(private var friends : ArrayList<String>) : RecyclerView.Ada
 
     class FriendsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         var textView : TextView
-        var button : Button
 
         // main constructor has no body
         // but there is an init block that is always called
 
         init {
             textView = itemView.findViewById(R.id.friendsName)
-            button = itemView.findViewById(R.id.friendsBtn)
         }
     }
     override fun onCreateViewHolder(
