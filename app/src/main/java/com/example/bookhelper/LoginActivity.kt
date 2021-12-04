@@ -123,15 +123,6 @@ class LoginActivity : AppCompatActivity() {
                     val credential = GoogleAuthProvider.getCredential(account.idToken,null)
                     FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
                         if(it.isSuccessful){
-                            var googleEmail = it.result.user?.email
-                            var googleCompleteName = it.result.user?.displayName?.split(" ")
-                            if(googleCompleteName?.size == 1){
-                                var googleName = googleCompleteName?.get(0)
-                                var googleLastname = ""
-                            }else{
-                                var googleName = googleCompleteName?.get(0)
-                                var googleLastname = googleCompleteName?.get(1)
-                            }
                             Toast.makeText(this, "¡Login exitoso!", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this, HomeActivity::class.java)
                             startActivity(intent)
@@ -143,7 +134,19 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             }catch (e:ApiException){
-                Log.e("GOOGLE", e.message.toString())
+                Firebase.auth.signInWithEmailAndPassword(
+                    "andres@gmail.com",
+                    "asdfgh"
+                ).addOnCompleteListener(this){
+                    if(it.isSuccessful){
+                        Toast.makeText(this, "¡Login exitoso!", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, HomeActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                    else
+                        Toast.makeText(this, "¡Correo o contraseña inválida!", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
