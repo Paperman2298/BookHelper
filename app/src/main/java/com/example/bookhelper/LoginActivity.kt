@@ -96,6 +96,7 @@ class LoginActivity : AppCompatActivity() {
 
         val googleSignInClient = GoogleSignIn.getClient(this, gso)
         googleSignInClient.signOut()
+        startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
         activityResultLauncher.launch(googleSignInClient.signInIntent)
     }
 
@@ -113,5 +114,50 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == RC_SIGN_IN){
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                if(account!=null){
+                    val credential = GoogleAuthProvider.getCredential(account.idToken,null)
+                    FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
+                        if(it.isSuccessful){
+                            var googleEmail = it.result.user?.email
+                            var googleCompleteName = it.result.user?.displayName?.split(" ")
+                            if(googleCompleteName?.size == 1){
+                                var googleName = googleCompleteName?.get(0)
+                                var googleLastname = ""
+                            }else{
+                                var googleName = googleCompleteName?.get(0)
+                                var googleLastname = googleCompleteName?.get(1)
+                            }
+                            Toast.makeText(this, "¡Login exitoso!", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, HomeActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                            LoginMessage(true)
+                        }else{
+                            LoginMessage(false)
+                        }
+                    }
+                }
+            }catch (e:ApiException){
+                Log.e("GOOGLE", e.message.toString())
+            }
+        }
+    }
+
+    private fun LoginMessage(success:Boolean){
+        if(success){
+            Toast.makeText(this,"Login successfully",Toast.LENGTH_SHORT).show()
+        }else{
+            Toast.makeText(this,"Email or password incorrect",Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    companion object {
+        private const val RC_SIGN_IN = 100
     }
 }
