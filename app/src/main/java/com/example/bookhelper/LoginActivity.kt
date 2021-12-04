@@ -100,6 +100,26 @@ class LoginActivity : AppCompatActivity() {
         activityResultLauncher.launch(googleSignInClient.signInIntent)
     }
 
+    fun onAnomClick(view: View?){
+        auth.signInAnonymously()
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInAnonymously:success")
+                    Toast.makeText(this, "¡Login exitoso!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                    val user = auth.currentUser
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInAnonymously:failure", task.exception)
+                    Toast.makeText(baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
     fun onRegisterClicked(view : View?){
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)

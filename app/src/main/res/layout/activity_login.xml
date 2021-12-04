@@ -11,13 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginBottom="40dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/LoginButton"
-        app:layout_constraintStart_toStartOf="@+id/loginEmailEditText" />
+        app:layout_constraintStart_toStartOf="@+id/loginEmailEditText"
+        tools:layout_editor_absoluteY="397dp" />
 
     <EditText
         android:id="@+id/loginEmailEditText"
@@ -67,17 +66,29 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.877" />
+        app:layout_constraintVertical_bias="0.905" />
 
     <Button
         android:id="@+id/googleButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="56dp"
         android:drawableLeft="@drawable/googleg_standard_color_18"
         android:onClick="onGoogleClicked"
         android:text="Google"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/makeAccountTextView"
+        app:layout_constraintStart_toStartOf="@+id/makeAccountTextView" />
+
+    <Button
+        android:id="@+id/googleButton3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="onAnomClick"
+        android:text="Anonymous"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/makeAccountTextView"
         app:layout_constraintStart_toStartOf="@+id/makeAccountTextView" />
@@ -102,11 +113,9 @@
         android:layout_marginTop="8dp"
         android:onClick="onForgotPasswordClicked"
         android:text="Forgot Password?"
-        app:layout_constraintBottom_toTopOf="@+id/LoginButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.926"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginPasswordEditText"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/loginPasswordEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
