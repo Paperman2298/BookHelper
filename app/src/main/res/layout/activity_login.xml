@@ -11,26 +11,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="@+id/loginEmailEditText"
-        tools:layout_editor_absoluteY="397dp" />
+        app:layout_constraintTop_toBottomOf="@+id/loginEmailEditText" />
 
     <EditText
         android:id="@+id/loginEmailEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="108dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/loginPasswordEditText"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_bookhelper" />
 
     <Button
         android:id="@+id/LoginButton"
@@ -111,6 +113,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:minHeight="48dp"
         android:onClick="onForgotPasswordClicked"
         android:text="Forgot Password?"
         app:layout_constraintEnd_toEndOf="parent"
