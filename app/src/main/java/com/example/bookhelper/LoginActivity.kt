@@ -135,8 +135,8 @@ class LoginActivity : AppCompatActivity() {
                 }
             }catch (e:ApiException){
                 Firebase.auth.signInWithEmailAndPassword(
-                    "andres@gmail.com",
-                    "asdfgh"
+                    "joel7164@gmail.com",
+                    "101010"
                 ).addOnCompleteListener(this){
                     if(it.isSuccessful){
                         Toast.makeText(this, "¡Login exitoso!", Toast.LENGTH_SHORT).show()
